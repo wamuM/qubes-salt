@@ -1,0 +1,5 @@
+# Ignore system salt
+formulas/
+pillar/
+reactor/
+salt/
