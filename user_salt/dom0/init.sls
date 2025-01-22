@@ -1,0 +1,7 @@
+# sls: Apply all configs to dom0 [dom0]
+# ====================================
+
+{% from 'macros/run_subdirs.sls' import run_subdirs %}
+{{ run_subdirs(__file__ | dirname) }}
+
+# vim: set syntax=yaml ts=2 sw=2 sts=2 et:

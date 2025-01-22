@@ -3,6 +3,8 @@
 
 # ===== User Defined Salt Pillars =============================================
 
-#user:
-#  '*':
-#    - custom
+user:
+  '*':
+    - identity 
+    - ENV 
+   
