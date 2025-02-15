@@ -2,7 +2,7 @@
 # ========================= 
 
 identity:
-  {% if grain['id'] == 'dom0' %}
+  {% if grains['id'] == 'dom0' %}
   email: "contact@wamu-m.com"
   name: "wamu_M"  
   {% else %}

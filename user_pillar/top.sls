@@ -4,6 +4,8 @@
 # ===== User Defined Salt Pillars =============================================
 
 user:
+  'dom0':
+    - labels
   '*':
     - identity 
     - ENV 

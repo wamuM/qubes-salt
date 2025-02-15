@@ -6,18 +6,14 @@
     - name: git
 
 {{ slsdotpath }}_config_username:
-  git.config:
-    - name: user.name
-    - value: {{ pillar['identity']['name'] }}
-    - global: True
+  cmd.run:
+    - name: git config --global user.name {{ pillar['identity']['name'] }}
   require:
     - pkg: {{ slsdotpath }}_git_installed
 
 {{ slsdotpath }}_config_email:
-  git.config:
-    - name: user.email
-    - value: {{ pillar['identity']['email'] }}
-    - global: True
+  cmd.run:
+    - name: git config --global user.email {{ pillar['identity']['email'] }}
   require:
     - pkg: {{ slsdotpath }}_git_installed
 
