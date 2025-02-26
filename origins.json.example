@@ -1,0 +1,6 @@
+{
+  "origin":{
+   	"url":"git://funnytest.git",
+	"secret":"my_secret_ssh_key"
+  }
+}
