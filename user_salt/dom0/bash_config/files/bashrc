@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2010 Fedora Project <https://fedoraproject.org>
+# SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH=".:$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+
+## Aliases to prevent mistakes
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+## ls aliases
+alias l='ls -A --color=auto'
+alias ll='ls -l --color=auto'
+alias la='ls -la --color=auto'
+
+## Variables for salt development
+D_salt='/srv/user_salt/'
+export D_salt 
+
+D_pillar='/srv/user_pillar/'
+export D_pillar 
+
+F_top="$D_salt/.template.top"
+export F_top
+F_sls="$D_salt/.template.sls"
+export F_sls
+
+qubesctlu(){
+	qubesctl $@ saltenv=user -l all
+}
+export -f qubesctlu
