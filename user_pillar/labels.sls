@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+# ========================
 # pillar: Color Labels for every VM category [dom0]
 # ================================================
 # The color represents the level of importance the data that vm holds has

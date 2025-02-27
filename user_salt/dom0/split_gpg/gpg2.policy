@@ -1,3 +1,0 @@
-# File Managed by SaltStack (original can be found at salt://dom0/split_gpg/gpg2.policy
-
-qubes.gpg2	+		@anyvm		@default	ask	target=vault-gpg default_target=vault-gpg

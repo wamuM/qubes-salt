@@ -1,4 +1,7 @@
-# pillar: Identity Data [*]
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+# ========================
+# pillar: Enviromen Data [*]
 # ========================= 
 ENV:
   dom0_user: "wamu_m"
