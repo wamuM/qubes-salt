@@ -5,7 +5,9 @@
 # ===================================================
 # Refer to ./template-input.jinja for relevant values
 
-{% import tpldir ~ "/template-input.jinja" as input %}
+{%- import tpldir ~ "/template-input.jinja" as input -%}
+
+{% if grains['nodename'] == 'dom0' %}
 
 {{ slsdotpath }}_start_template:
   qvm.start:
@@ -32,5 +34,5 @@
   qvm.shutdown:
     - name: {{ input.template_name }}
 
-
+{% endif %}
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:

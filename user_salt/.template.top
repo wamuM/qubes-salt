@@ -5,6 +5,10 @@
 # =================================== 
 # Quick Description
 
-<CONTENT HERE>
+user:
+  'dom0':
+    - somestate
+  '!dom0':
+    - anotherstate
 
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:

@@ -8,6 +8,8 @@
 
 {% import tpldir ~ "/template-input.jinja" as input %}
 
+{% if grains['nodename'] == 'dom0' %}
+
 {{ slsdotpath }}_base_template:
   qvm.template_installed:
     - name: {{ input.base_template }}
@@ -26,5 +28,6 @@
   require:
     - qvm: {{ slsdotpath }}_cloned_base
 
+{% endif %}
 
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:

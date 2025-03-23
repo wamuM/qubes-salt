@@ -24,3 +24,6 @@ Where the states for standalones are located.
 Where the states for templates are located.
 ### macros
 Some useful jinja macros.
+### generics
+Some state files that are very common and are to be used as "templates"
+

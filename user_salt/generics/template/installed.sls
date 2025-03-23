@@ -5,9 +5,13 @@
 # ===================================================
 # Include the software that you want installed here
 
+{% if grains['nodename'] != 'dom0' %}
+
 include:
   # Install the packages specified in the template-input.jinja file:
   - {{ slsdotpath }}.simple_packages_installed 
   # Software that requires configuration: 
+
+{% endif %}
 
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:
