@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/local/bin/st
+TryExec=/usr/local/bin/st
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+Name=Simple Terminal - st
+GenericName=Terminal
+Comment=st is a simple terminal implementation for X also known as suckless terminal
+StartupWMClass=st-256color

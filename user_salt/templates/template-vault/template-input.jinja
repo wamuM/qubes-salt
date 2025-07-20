@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com> 
+# SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# ===================================
+# 	     Jinja Template Input
+# =================================== 
+# This file has the inputs provided to 
+# the generic creation files.
+
+{% set template_name = 'template-vault' %}
+
+{% set base_template = 'fedora-41-minimal' %}
+
+{% set simple_packages = [
+  'git',
+  'keepassxc',
+  'qubes-core-agent-thunar',
+] %}
+
+{% set extra = [
+  'features.split-gpg.template',
+] %}
+
+# vim: set syntax=yaml ts=2 sw=2 sts=2 et:
+
+

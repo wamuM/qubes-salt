@@ -1,0 +1,14 @@
+" SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+" SPDX-License-Identifier: CC0-1.0 
+
+" Line Numbers
+:set number
+:set relativenumber
+
+
+" Modelines
+" ( This is usually considered bad practice for root but this is dom0
+"   so no file that could exploit this would ever get here           )
+:set modeline
+:set modelines=5
+

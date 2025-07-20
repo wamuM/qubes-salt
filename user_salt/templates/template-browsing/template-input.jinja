@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2023 Benjamin Grande M. S. <ben.grande.b@gmail.com> 
+# SPDX-FileCopyrightText: 2025 Marcel M. T. (wamu_M) <contact@wamu-m.com>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# ===================================
+# 	     Jinja Template Input
+# =================================== 
+# This file has the inputs provided to 
+# the generic creation files.
+
+{% set template_name = 'template-browsing' %}
+
+{% set base_template = 'fedora-41-minimal' %}
+
+{% set simple_packages = [
+  'ffmpeg-free',
+  'git',
+  'qubes-core-agent-networking',
+  'qubes-core-agent-passwordless-root',
+  'qubes-core-agent-thunar',
+  'pipewire-qubes',
+  'qubes-usb-proxy',
+] %}
+
+{% set extra  = [
+  'software.librewolf.installed',
+  'features.ctap.template',
+] %}
+
+# vim: set syntax=yaml ts=2 sw=2 sts=2 et:
+
+
