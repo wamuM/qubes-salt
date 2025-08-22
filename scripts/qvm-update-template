@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import qubesadmin
+import subprocess
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+def main():
+    if len(sys.argv) != 2:
+        eprint("[?] Usage: qvm-update-template <template-name>")
+        eprint("           Please make sure you have changed the state file first")
+        sys.exit(1)
+
+    vm_name = sys.argv[1]
+
+    app = qubesadmin.Qubes()
+
+    if not vm_name in app.domains:
+        eprint(f"[-] Error: Template '{vm_name}' does not exists.")
+        sys.exit(2)
+    else:
+        outd_vm = app.domains[vm_name]
+
+    print(f"[#] Renaming old VM") 
+    outdated_name = f"tmp-{vm_name}-{os.getpid()}"
+    subprocess.run(["qvm-rename",vm_name,outdated_name],check=True)
+
+    print(f"[#] Creating updated template (can take a while)")
+    subprocess.run(["qubesctl", "state.apply", f"templates.{vm_name}", "saltenv=user"],check=True)
+    upd_vm = app.domains[vm_name]
+    print(f"[+] Updated template created")
+
+    print(f"[#] Updating VM dependencies")
+    deps = qubesadmin.utils.vm_dependencies(app, outdated_name)
+    failed_props = []
+    for (holder, prop) in deps: 
+        try:
+            if holder is None:
+                setattr(app,prop,upd_vm)
+            else:
+                setattr(holder,prop,upd_vm)
+            print(f"\t[+] {'[Global]'if holder is None else holder.name}: {prop}")
+        except qubesadmin.exec.QubesException:
+            failed_props += [(holder,prop)]
+    
+    if failed_props:
+        eprint(f"[-] Error: Could not change some properties")
+        eprint(f"           The system now has both '{outdated_name}' (the outdated template) and '{vm_name}' (the updated template).")
+        eprint(f"           To resolve this, please check and change the following properties and remove '{outdated_name}' once done.")
+        eprint(f"           Properties that could not be changed:")
+        for (holder, prop) in failed_props:
+            eprint(f"       [-] {'[Global]'if holder is None else holder.name}: {prop}")
+        sys.exit(5) 
+    else:
+        print(f"[+] Successfully switched dependencies")
+        print(f"[#] Deleting '{outdated_name}'")
+        del app.domains[outdated_name]
+
+    print(f"[+] Template Update Succesfully Completed!")
+            
+if __name__ == "__main__":
+    main()
+
+# vim: set filetype=python :

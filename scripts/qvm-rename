@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import sys
+import qubesadmin
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+def main():
+    if len(sys.argv) != 3:
+        eprint("[?] Usage: qvm-rename <old_vm_name> <new_vm_name>")
+        sys.exit(1)
+
+    old_vm_name = sys.argv[1]
+    new_vm_name = sys.argv[2]
+
+    app = qubesadmin.Qubes()
+
+    try:
+        old_vm = app.domains[old_vm_name]
+    except qubesadmin.exc.QubesVMNotFoundError:
+        eprint(f"[-] Error: VM '{old_vm_name}' does not exists.")
+        sys.exit(2)
+
+    if new_vm_name in app.domains:
+        eprint(f"[-] Error: VM '{new_vm_name}' already exists.")
+        sys.exit(3)
+    
+    print(f"[#] Checking dependencies of '{old_vm_name}'")
+    deps = qubesadmin.utils.vm_dependencies(app, old_vm_name)
+
+    running_deps = [ vm.name for (vm, prop) in deps 
+        if vm and prop == 'template' and vm.is_running()]
+    if running_deps:
+        eprint(f"[-] Error: Dependencies running")
+        eprint(f"\t The following qubes use '{old_vm_name}' as a template and are running:")
+        eprint("\t "+", ".join(running_deps))
+        sys.exit(4)
+    print(f"[+] No dependencies running")
+
+    print(f"[#] Cloning '{old_vm_name}' to '{new_vm_name}'")
+    new_vm = app.clone_vm(old_vm, new_vm_name)
+
+    print(f"[#] Switching dependencies from '{old_vm_name}' to {new_vm_name}'")
+    failed_props = []
+    for (holder, prop) in deps: 
+        try:
+            if holder is None:
+                setattr(app,prop,new_vm)
+            else:
+                setattr(holder,prop,new_vm)
+            print(f"\t[+] {'[Global]'if holder is None else holder.name}: {prop}")
+        except qubesadmin.exec.QubesException:
+            failed_props += [(holder,prop)]
+    
+    if failed_props:
+        eprint(f"[-] Error: Could not change some properties")
+        eprint(f"\t The system now has both '{old_vm_name}' and '{new_vm_name}'.")
+        eprint(f"\t To resolve this, please check and change the following properties and remove '{old_vm_name}' once done.")
+        eprint(f"\t Properties that could not be changed:")
+        for (holder, prop) in failed_props:
+            eprint(f"\t[-] {'[Global]'if holder is None else holder.name}: {prop}")
+        sys.exit(5) 
+    else:
+        print(f"[+] Successfully switched dependencies")
+        print(f"[#] Deleting '{old_vm_name}'")
+        del app.domains[old_vm_name]
+
+    print(f"[+] Renaming Succesfully Completed!")
+            
+if __name__ == "__main__":
+    main()
+
+# vim: set filetype=python :

@@ -161,7 +161,6 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
@@ -194,7 +193,6 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
             s.mytaglist,
-            s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
@@ -221,19 +219,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey,            }, "s",      hotkeys_popup.show_help,
               {description = "show help",  group = "awesome"}),
 
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "awesome"}),
-
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+    awful.key({ modkey },            "r",     function () awful.spawn("qvm-rofi") end,
+              {description = "run qvm-rofi", group = "awesome"}),
 
     awful.key({ modkey,           }, "t", function () awful.spawn(terminal) end,
               {description = "open a terminal",    group = "awesome"}),
