@@ -35,15 +35,15 @@ def main():
         push_entry("log out")
     if retv == 1:
         if args[0] == "shutdown":
-            subprocess.Popen("systemctl shutdown",stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL) 
+            subprocess.run(["systemctl","shutdown"]) 
         elif args[0] == "reboot":
-            subprocess.Popen("systemctl reboot",stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL) 
+            subprocess.run(["systemctl","reboot"])
         elif args[0] == "suspend": 
-            subprocess.Popen("systemctl suspend",stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL) 
+            subprocess.run(["systemctl","suspend"])
         elif args[0] == "hybernate":
-            subprocess.Popen("systemctl hybrid-sleep",stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL) 
+            subprocess.run(["systemctl","hybrid-sleep"])
         elif args[0] == "log out":
-            subprocess.Popen("awesome-client \"awesome.quit()\"",stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL) 
+            subprocess.run(["log-out"])
     else: 
         exit(1)
 if __name__ == "__main__":
