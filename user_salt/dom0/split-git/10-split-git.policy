@@ -1,0 +1,7 @@
+split-git.Push		*	dom0	*	allow
+split-git.Fetch		*	dom0	*	ask
+
+split-git.Push		*	*	dom0	deny	
+split-git.Init		*	*	dom0	deny
+split-git.Fetch		*	*	dom0	deny
+

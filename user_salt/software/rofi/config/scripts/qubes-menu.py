@@ -52,10 +52,11 @@ def generate_drun(path):
     return entries
 def generate_dom0_drun() -> list:
     drun = generate_drun("/usr/share/applications/") 
-    return [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun]
+    return drun
+    
 def generate_vm_drun(vm) -> list:
-    drun = generate_drun(os.path.expanduser(f"~/.local/share/qubes-appmenus/{vm}/apps/"))
-    return [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun if not e["DVMTempEntry"]]
+    drun = generate_drun(os.path.expanduser(f"~/.local/share/qubes-appmenus/{vm}/apps/")) 
+    return drun
 
 def main():
     retv = int(os.getenv("ROFI_RETV",0))
@@ -81,15 +82,18 @@ def main():
             domain = args[0]
             # Selecting Within Domain
             if args[0] == "dom0":
-                entries = generate_dom0_drun()
-                ush_option("prompt","dom0") 
+                drun = generate_dom0_drun()
+                entries = [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun ]
+                push_option("prompt","dom0") 
             elif info == "disposable":
                 domain = domain.split("(")[0][:-1]
                 push_option("prompt",f"{domain} (DispVM)")
-                entries = generate_vm_drun(domain)
+                drun = generate_vm_drun(domain)
+                entries = [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun if not e["DVMTempEntry"]]
             else:
                 push_option("prompt",domain)
-                entries = generate_vm_drun(domain)
+                drun = generate_vm_drun(domain)
+                entries = [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun]
 
             push_option("no-custom","false")
             push_option("data",domain) # Store domain for next use

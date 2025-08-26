@@ -1,0 +1,38 @@
+#!/usr/bin/env python3 
+
+import sys
+import re
+import os
+import subprocess
+
+def die(msg: str):
+    print(msg, file=sys.stderr)
+    exit(1)
+
+def silent_call(cmd):
+    subprocess.run(cmd,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL)
+
+def mutate(cmd,args):
+    os.execlp(cmd,[cmd,*args])
+
+def main():
+    print(flush=True) # Answers the connect command with a Connection Established
+
+    home_dir = os.getenv("HOME","/home/user/")
+    repo_home = os.getenv("SPLIT_GIT_HOME",f"{home_dir}/split_git/")
+    address = os.getenv("QREXEC_SERVICE_ARGUMENT")  
+    repo = os.path.join(repo_home,f"{address}.git")
+
+    if not os.path.isdir(repo_home):
+        try:
+            os.makedirs(repo_home,mode=0o700,exist_ok=True)
+        except Exception:
+            die(f"Cannot create directory: ${repo_home}")
+
+    mutate(["git","init","--bare","--",repo]) 
+
+if __name__ == "__main__":
+    main() 
+    

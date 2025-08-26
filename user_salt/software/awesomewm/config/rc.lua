@@ -219,9 +219,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey,            }, "s",      hotkeys_popup.show_help,
               {description = "show help",  group = "awesome"}),
 
-    awful.key({ modkey },            "r",     function () awful.spawn("qvm-rofi") end,
-              {description = "run qvm-rofi", group = "awesome"}),
-
     awful.key({ modkey,           }, "t", function () awful.spawn(terminal) end,
               {description = "open a terminal",    group = "awesome"}),
 
@@ -230,11 +227,14 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey, "Mod1", "Control" }, "q", awesome.quit,
               {description = "quit awesome",       group = "awesome"}),
+-- desktop
+    awful.key({ modkey,           }, "Escape", function () awful.spawn("power-options") end,
+              {description = "power options", group = "desktop"}),
+
+    awful.key({ modkey },            "r",     function () awful.spawn("launcher") end,
+              {description = "run the launcher", group = "desktop"}),
 
 --- tag
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-              {description = "go back", group = "tag"}),
-
     awful.key({ modkey,  "Shift"  }, "h",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
 

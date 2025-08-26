@@ -1,0 +1,1 @@
+This generator requires magick which is not in the default dom0 repository, it would be best to copy this to a VM with magic, generate them, and then copy them back to ../minegrub-theme

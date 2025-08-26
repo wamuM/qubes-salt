@@ -35,7 +35,7 @@ def main():
         push_entry("log out")
     if retv == 1:
         if args[0] == "shutdown":
-            subprocess.run(["systemctl","shutdown"]) 
+            subprocess.run(["systemctl","poweroff"]) 
         elif args[0] == "reboot":
             subprocess.run(["systemctl","reboot"])
         elif args[0] == "suspend": 

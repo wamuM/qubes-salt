@@ -6,7 +6,7 @@
 
 {{ slsdotpath }}_policy_file:
   file.managed:
-    - name: "/etc/qubes/policy.d/30-user-gpg2.policy"
+    - name: "/etc/qubes/policy.d/30-split-gpg2.policy"
     - source: "salt://{{ tpldir }}/gpg2.policy"
     - user: root
     - group: root

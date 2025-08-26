@@ -1,0 +1,70 @@
+#!/usr/bin/env python3 
+
+import sys
+import re
+import os
+import subprocess
+
+def die(msg: str):
+    print(msg, file=sys.stderr)
+    exit(1)
+
+def parseURL(unparsed: str)-> tuple[str,str]:
+    regex = r"^(qrexec:\/*)?([\w-]+)\/+([\w-]+)(\.git)?$"
+    match = re.match(regex,unparsed)
+    if not match:
+        die("Invalid URL")
+    return match.group(2,3)
+
+def capabilities():
+    print("*connect")
+    print()
+    sys.stdout.flush()
+
+def command_exists(cmd:str)-> bool:
+    for path in os.environ.get("PATH","").split(os.pathsep):
+        full_path = os.path.join(path,cmd)
+        if os.path.isfile(full_path) and os.access(full_path,os.X_OK):
+            return True
+    return False
+def mutate(cmd,args):
+    os.execvp(cmd,[cmd,*args])
+
+def connect(domain,address,service):
+    if service == "git-upload-pack":
+        rpc = "split-git.Fetch"
+    elif service == "git-receive-pack":
+        rpc = "split-git.Push"
+    else:
+        die("invalid service for connect command")
+        
+    if command_exists("qrexec-client-vm"):
+        args = ['-T',"--",f"{domain}",f"{rpc}+{address}"]
+        mutate("qrexec-client-vm",args)
+    elif command_exists("qrexec-client"):
+        args = ['-T','-d',f"{domain}","--",f"DEFAULT:QUBESRPC {rpc}+{address} dom0"]
+        mutate("qrexec-client",args)
+    else:
+        die("qrexec programs not found: qrexec-client-vm, qrexec-client")
+    
+    
+
+def main():
+    domain, address = parseURL(sys.argv[2])
+    for line in sys.stdin:
+        if not line:
+            continue
+        words = line.split()
+        cmd = words[0]
+        args = words[1:]
+        if cmd == "capabilities":
+            capabilities() 
+        elif cmd == "connect":
+            connect(domain,address,args[0])
+        else:
+            print(flush=True)
+            die(f"Unsuported Command: {cmd}\n with arguments: {' '.join(args)}")
+
+if __name__ == "__main__":
+    main() 
+    
