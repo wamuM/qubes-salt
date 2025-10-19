@@ -28,13 +28,13 @@ def main():
     if retv == 0:
         push_option("no-custom","true")
         push_option("prompt","Power Option:")
-        push_entry("shutdown")
+        push_entry("poweroff")
         push_entry("reboot")
         push_entry("suspend")
-        push_entry("hybernate")
+        # push_entry("hybernate") ## Disabled in QubesOS
         push_entry("log out")
     if retv == 1:
-        if args[0] == "shutdown":
+        if args[0] == "poweroff":
             subprocess.run(["systemctl","poweroff"]) 
         elif args[0] == "reboot":
             subprocess.run(["systemctl","reboot"])
