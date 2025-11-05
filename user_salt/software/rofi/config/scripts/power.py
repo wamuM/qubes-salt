@@ -27,7 +27,7 @@ def main():
     args = sys.argv[1:]
     if retv == 0:
         push_option("no-custom","true")
-        push_option("prompt","Power Option:")
+        push_option("prompt","Power Option")
         push_entry("poweroff")
         push_entry("reboot")
         push_entry("suspend")
