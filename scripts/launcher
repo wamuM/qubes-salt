@@ -1,2 +1,6 @@
 #!/usr/bin/env bash 
+if [ $# -eq 1 ]; then
+	export FOCUSED_VM="$1"
+fi
 rofi -show qubes-menu  
+unset FOCUSED_VM

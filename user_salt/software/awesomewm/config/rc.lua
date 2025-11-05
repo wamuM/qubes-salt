@@ -233,6 +233,11 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey },            "r",     function () awful.spawn("launcher") end,
               {description = "run the launcher", group = "desktop"}),
+    awful.key({ modkey, "Control"},            "r",     function ()
+		 qubes.manage(client.focus)	
+		 awful.spawn("launcher "..client.focus.qubes_vmname) 
+		end,
+              {description = "run the launcher in focused VM", group = "desktop"}),
 
 --- tag
     awful.key({ modkey,  "Shift"  }, "h",   awful.tag.viewprev,

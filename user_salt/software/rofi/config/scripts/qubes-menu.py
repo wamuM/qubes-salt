@@ -63,6 +63,15 @@ def main():
     data = os.getenv("ROFI_DATA",None)
     info = os.getenv("ROFI_INFO",None)
     args = sys.argv[1:]
+
+    focus_client = os.getenv("FOCUSED_VM",None)
+    if focus_client:
+        data = "[None]"
+        domain = focus_client
+        retv = 1
+    else:
+        domain = None
+
     if retv == 0:
         # Selecting Domain
         entries = generate_vm_list()
@@ -79,9 +88,10 @@ def main():
         if data == None:
             exit(2) 
         elif data == "[None]":
-            domain = args[0]
+            if not domain:
+                domain = args[0]
             # Selecting Within Domain
-            if args[0] == "dom0":
+            if domain == "dom0":
                 drun = generate_dom0_drun()
                 entries = [(e["name"],e["exe"],e["icon"],e["meta"]) for e in drun ]
                 push_option("prompt","dom0") 
