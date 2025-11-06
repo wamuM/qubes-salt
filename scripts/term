@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+if [ $# -ne 1 ]; then
+	echo "[-] Must be called with the VM name as a parameter"
+	exit 1
+fi
+
+if [ "$1" = "dom0" ]; then
+	TERMINAL="${TERMINAL:-xfce4-terminal}"
+	exec "$TERMINAL" &
+	exit 0
+fi
+
+qvm-run $1 qubes-run-terminal
+
+
+
+
+
+

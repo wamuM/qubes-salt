@@ -219,8 +219,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey,            }, "s",      hotkeys_popup.show_help,
               {description = "show help",  group = "awesome"}),
 
-    awful.key({ modkey,           }, "t", function () awful.spawn(terminal) end,
-              {description = "open a terminal",    group = "awesome"}),
+    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+              {description = "open a dom0 terminal",    group = "awesome"}),
+
+    awful.key({ modkey,  "Control"}, "Return", function () 
+		qubes.manage(client.focus)
+		awful.spawn("term "..client.focus.qubes_vmname)
+		end,
+              {description = "open a terminal in focused VM",    group = "awesome"}),
 
     awful.key({ modkey, "Mod1" }, "r", awesome.restart,
               {description = "reload awesome",     group = "awesome"}),
