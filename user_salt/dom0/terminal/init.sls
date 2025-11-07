@@ -14,6 +14,7 @@
     - user: root
     - group: root
     - mode: 0600
+    - force: true
 
 {{ slsdotpath }}_vimrc:
   file.managed:
@@ -22,6 +23,7 @@
     - user: root
     - group: root
     - mode: 0600
+    - force: true
 
 {{ slsdotpath }}_packages:
   pkg.installed:

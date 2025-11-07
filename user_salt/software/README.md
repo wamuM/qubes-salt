@@ -5,5 +5,5 @@
 In this directory you can find all states to configure and install apps/CLItools and any software in general.
 ## General Purpose sls
 All subdirectories should contain the following general purpose states
-### installed.sls
+### installed.sls 
 installs the software if not present

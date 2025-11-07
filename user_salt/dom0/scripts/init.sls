@@ -4,13 +4,17 @@
 #   Add useful scripts to /usr/local/bin   [dom0]
 # ================================================
 
-{% set path = '/srv/scripts/' %}
+{% set path = '/srv/user_salt/dom0/scripts/bin' %}
 {% for script in salt['file.readdir'](path) 
    if salt['file.file_exists'](path~'/'~script) %}
 {{ slsdotpath }}_script_{{script}}_softlink:
-  file.symlink:
+  file.managed:
     - name: {{"/usr/local/bin/"~script}}
-    - target: {{ path~script }}
+    - source: {{ path~'/'~script }}
+    - user: root
+    - group: root
+    - mode: 0755
+    - force: true
 {% endfor %}
 
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:

@@ -15,7 +15,7 @@ Where the states to create and configure all appvms are located.
 ### dispvms
 Where the states to create non management disposable templates are located.
 ### dom0
-Where the states that manage dom0 are located.
+Where the states that manage dom0 are located. Even if other states require changes to dom0 they should specify so in their doc. No change to dom0 can be done outside this dir.
 ### services
 Where the states for services are located (includes management dispvms).
 ### standalones
