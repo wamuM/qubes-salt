@@ -5,3 +5,4 @@ pillar/
 reactor/
 salt/
 old_user_salt/
+*.swp
