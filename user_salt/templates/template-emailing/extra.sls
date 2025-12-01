@@ -7,11 +7,10 @@
 
 {% import tpldir ~ "/template-input.jinja" as input %}
 
-
 {{ slsdotpath }}_NOP:
   test.nop:
     - comment: "Filler action"
-  
+
 {% if grains['nodename'] != 'dom0' %}
 {% if input.extra %}
 include:
@@ -20,5 +19,3 @@ include:
   {% endfor %}
 {% endif %}
 {% endif %}
-
-# vim: set syntax=yaml ts=2 sw=2 sts=2 et:
