@@ -64,6 +64,7 @@ def main():
     info = os.getenv("ROFI_INFO",None)
     args = sys.argv[1:]
 
+    # Automatically selects the focused vm
     focus_client = os.getenv("FOCUSED_VM",None)
     if focus_client:
         data = "[None]"

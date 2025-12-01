@@ -12,6 +12,7 @@
 {% set base_template = 'fedora-41-minimal' %}
 
 {% set simple_packages = [
+  'qubes-app-shutdown-idle',
   'ffmpeg-free',
   'pipewire-qubes',
   'reuse',
@@ -33,8 +34,8 @@
 
   "features.split-git.backend",
   "features.split-git.client",
-#  'features.split-ctap.template', Disabled because it doesn't work
 ] %}
+#  'features.split-ctap.template', Disabled because it doesn't work
 
 # vim: set syntax=yaml ts=2 sw=2 sts=2 et:
 
