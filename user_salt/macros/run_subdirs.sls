@@ -9,8 +9,8 @@
   {% for subdir in salt['file.readdir'](path) 
   if subdir not in ['..','.'] 
   and subdir not in excluded
-  and not subdir.startsWith("_") 
-  and not subdir.startsWith(".")
+  and not subdir.startswith("_") 
+  and not subdir.startswith(".")
   and salt['file.directory_exists'](path~'/'~subdir) %}
 {{ slsdotpath }}__run_subdirs__{{ subdir }}:
   salt.state:

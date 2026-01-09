@@ -66,7 +66,7 @@ def main():
 
     # Automatically selects the focused vm
     focus_client = os.getenv("FOCUSED_VM",None)
-    if focus_client:
+    if focus_client and not data and not info:
         data = "[None]"
         domain = focus_client
         retv = 1
