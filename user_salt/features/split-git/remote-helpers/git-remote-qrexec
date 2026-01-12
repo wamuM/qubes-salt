@@ -32,9 +32,9 @@ def mutate(cmd,args):
 
 def connect(domain,address,service):
     if service == "git-upload-pack":
-        rpc = "split-git.Fetch"
+        rpc = "splitGit.Fetch"
     elif service == "git-receive-pack":
-        rpc = "split-git.Push"
+        rpc = "splitGit.Push"
     else:
         die("invalid service for connect command")
         
