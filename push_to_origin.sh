@@ -1,12 +1,13 @@
 #!/bin/env bash
 
-VM="temp-git"
+VM="temp-git-$$"
 REPO="qubes-config"
 
 echo "[#] creating $VM VM"
 
 if qvm-check $VM >/dev/nul; then
    echo "[!] Fatal: the VM already exists"	
+   exit 1
 else
    qvm-create $VM --template template-coding --label purple
    echo "[+] $VM succesfully created"
@@ -16,16 +17,19 @@ qvm-start $VM
 echo "[+] Creating VM repo"
 qvm-run --service $VM splitGit.Init+$REPO
 
-echo "[+] Pushing to VM repo"
-git push "qrexec://$VM/$REPO" HEAD:master
-
 echo "[+] Copying token to VM"
 qvm-copy-to-vm "$VM" "/srv/github-token"
 
+echo "[+] Copying push script to VM"
+qvm-copy-to-vm "$VM" "/srv/push_from_vm.sh"
+qvm-run "$VM" "chmod a+x /home/user/QubesIncoming/dom0/push_from_vm.sh"
+
+echo "[+] Pushing to VM repo"
+git push "qrexec://$VM/$REPO" HEAD:master
+
 echo "[+] Pushing to remote"
-qvm-run "$VM" --pass-io ' 
-DIR="${SPLIT_GIT_HOME:-"$HOME/split_git/"}"
-cd "$DIR/qubes-config.git"
-GIT_SSH_COMMAND="ssh -i $HOME/QubesIncoming/dom0/github-token -o IdentitiesOnly=yes"
-yes | git push git@github.com:wamuM/qubes-salt master 
-'
+qvm-run "$VM" "/home/user/QubesIncoming/dom0/push_from_vm.sh"
+
+echo "[+] Removing $VM VM"
+qvm-shutdown "$VM"
+qvm-remove "$VM"
